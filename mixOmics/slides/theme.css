@@ -1,0 +1,24 @@
+
+ 
+
+.inverse {
+  background-image: url(img/title_bkg.png);
+  background-size: cover;
+}
+
+.title-slide {
+  background-image: url(img/title_bkg.png);
+  background-size: cover;
+}
+
+
+.pull-left-sm {
+  float: left;
+  width: 27%;
+  padding-top: 0;
+}
+.pull-right-lrg {
+  float: right;
+  width: 67%;
+  padding-top: 0;
+}

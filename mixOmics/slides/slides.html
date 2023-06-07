@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Multi-omics Data Integration</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Amrit Singh, PhD Assistant Professor" />
+    <script src="libs/header-attrs-2.19/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/middlebury-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="theme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, my-title, title-slide
+
+.title[
+# Multi-omics Data Integration
+]
+.author[
+### Amrit Singh, PhD<br><span style="font-size: 75%;">Assistant Professor</span>
+]
+.date[
+### June 7th, 2023 | 13:00-15:00 PST<br><br>TOG Intermediate Workshop <br> BCCHR Trainee Omics Group (TOG) <br> <br><svg aria-hidden="true" role="img" viewBox="0 0 640 512" style="height:1em;width:1.25em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M579.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L422.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C206.5 251.2 213 330 263 380c56.5 56.5 148 56.5 204.5 0L579.8 267.7zM60.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C74 372 74 321 105.5 289.5L217.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C433.5 260.8 427 182 377 132c-56.5-56.5-148-56.5-204.5 0L60.2 244.3z"/></svg> <a href="https://cbl-hli.med.ubc.ca/">Comp Bio lab</a><br><svg aria-hidden="true" role="img" viewBox="0 0 496 512" style="height:1em;width:0.97em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg> <a href="https://github.com/singha53/tog_workshop">code</a>
+]
+
+---
+
+
+
+
+# Land acknowledgement
+
+.pull-left[
+**I would like to acknowledge that I work on the traditional, ancestral, and unceded territory of the Coast Salish Peoples, including the territories of the xwməθkwəy̓əm (Musqueam), Skwxwú7mesh (Squamish), Stó:lō and Səl̓ílwətaʔ/Selilwitulh (Tsleil- Waututh) Nations.**
+
+*Traditional*: Traditionally used and/or occupied by Musqueam people
+
+*Ancestral*: Recognizes land that is handed down from generation to generation
+
+*Unceded*: Refers to land that was not turned over to the Crown (government) by a treaty or other agreement
+
+]
+
+.pull-right[
+.center[&lt;img src ="img/land_acknowledgement.gif" alt="matrix", width="80%"/&gt;]
+]
+
+---
+
+# What are your expectations from today's workshop?
+
+.center[&lt;img src ="img/slido.png" width="80%"/&gt;]
+
+---
+
+class: middle
+
+# Learning outcomes
+
+By the end of this lecture you will be able to:
+
+### 1. Describe what the *mixOmics* R-library can do.
+### 2. Describe when to use which method and for what purpose (exploration, classification, integration).
+### 3. Analyze data using mixOmics for various purposes (exploration, classification, integration)
+
+---
+
+# High-dimensional data
+
+- n &lt;&lt;&lt; p (number of observations is much smaller than the number variables)
+- data is highly correlated
+
+
+.pull-left-sm[
+## univariate
+
+```
+##       p_1
+## 1  -2.580
+## 2   1.180
+## 3  -1.660
+## 4   0.302
+## 5  -0.805
+## 6  -0.201
+## 7   0.854
+## 8   1.290
+## 9  -0.554
+## 10 -0.071
+```
+]
+
+.pull-right-lrg[
+## multivariate
+
+```
+##       p_1    p_2     p_3     p_4     p_5    p_6     p_7      p_8     p_9   p_10
+## 1   0.456  0.129 -0.0564 -1.0000  0.0701  0.342  0.3690  0.17600  0.2410 -0.272
+## 2  -0.624 -1.600  0.4850 -0.1210  0.8090 -1.260 -0.2730  1.24000 -0.1600 -0.079
+## 3   0.445  1.130  1.3400 -0.8150 -1.0400 -1.170  0.0808  0.04950 -2.1600 -1.050
+## 4  -1.050  0.325  0.6460 -0.3910  0.1730 -1.180 -1.5900  1.67000  1.6400 -1.640
+## 5   0.882  0.764  1.6300 -0.0591 -0.3350 -1.840  1.1200  0.28300  0.5260  0.148
+## 6   0.526 -1.360  1.6100  1.1800 -1.1000 -0.198  0.0745  0.23500  0.9970 -1.120
+## 7  -0.198 -0.831  1.4400 -0.8510  1.7100  0.993 -1.0100 -0.39400  0.8660  0.780
+## 8   0.874  0.422  0.5850  0.8090 -0.5640  0.688 -0.2520 -0.12400 -1.6100  0.342
+## 9   0.347  1.110 -2.3700  0.4850 -0.3210 -0.873  0.2680 -0.04000  0.0412 -1.620
+## 10 -1.910  0.460 -0.4670  0.7820 -0.5200 -0.171 -1.4400  0.00497 -0.0880  1.640
+```
+
+.center[&lt;img src ="img/matrix.png" alt="matrix", width="40%"/&gt;]
+]
+
+---
+
+# What can you do with high-dimensional data?
+
+.pull-left[
+
+### Unsupervised (clustering)
+.center[&lt;img src ="img/kmeans.gif" alt="kmeans", width="80%"/&gt;]
+[Chire 2017](https://commons.wikimedia.org/wiki/File:K-means_convergence.gif)
+]
+
+.pull-right[
+
+### Supervised (regression/classification)
+.center[&lt;img src ="img/decision_boundary.gif" alt="decision_boundary", width="80%"/&gt;]
+[Tensorflow playground](https://playground.tensorflow.org/)
+]
+
+---
+
+# mixOmics
+
+- initiative started and maintained by Prof Kim-Anh Lê Cao
+- R-library with 19 methods for high-dimensional data (exploratory analyses, classification, regression, data integration, meta-analysis)
+.center[&lt;img src ="img/mixOmics.png" alt="decision_boundary", width="80%"/&gt;]
+
+---
+
+# What does mixOmics offer? methods...
+
+
+.center[&lt;img src ="img/mixOmics_methods.png" alt="mixOmics methods", width="100%"/&gt;]
+[mixOmics.org](http://mixomics.org/) | *variable selection
+
+---
+
+# What does mixOmics offer? when to use these methods...
+
+
+.center[&lt;img src ="img/mixOmics_when_to_use_methods.png" alt="when to use mixOmics methods", width="75%"/&gt;]
+[Selecting your method](http://mixomics.org/methods/selecting-your-method/)
+
+
+---
+
+# What does mixOmics offer? graphics...
+
+
+.center[&lt;img src ="img/mixOmics_viz.png" alt="mixOmics visualizations", width="100%"/&gt;]
+[mixOmics.org](http://mixomics.org/)
+
+---
+
+# Getting started with mixOmics
+
+1. Download [R](https://cran.r-project.org/mirrors.html)
+2. Download [RStudio](https://posit.co/download/rstudio-desktop/)
+3. install [mixOmics](https://www.bioconductor.org/packages/release/bioc/html/mixOmics.html)
+
+## install mixOmics
+
+
+```r
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("mixOmics")
+```
+
+## load vignette
+
+
+```r
+openVignette("mixOmics")
+```
+
+---
+
+# Dataset used in this talk
+
+## Breast Cancer multi omics data from TCGA
+
+This data set is a small subset of the full data set from The Cancer Genome Atlas that can be analysed with the DIABLO framework. It contains the expression or abundance of three matching omics data sets: mRNA, miRNA and proteomics for 150 breast cancer samples (Basal, Her2, Luminal A) in the training set, and 70 samples in the test set. The test set is missing the proteomics data set.
+
+.pull-left[
+
+```r
+library(mixOmics)
+data(breast.TCGA)
+lapply(breast.TCGA$data.train, dim)
+```
+
+```
+## $mirna
+## [1] 150 184
+## 
+## $mrna
+## [1] 150 200
+## 
+## $protein
+## [1] 150 142
+## 
+## $subtype
+## NULL
+```
+]
+
+.pull-right[
+## breast cancer subtypes
+
+```r
+addmargins(table(breast.TCGA$data.train$subtype))
+```
+
+```
+## 
+## Basal  Her2  LumA   Sum 
+##    45    30    75   150
+```
+
+]
+
+---
+
+
+# Analysis plan
+
+| Analysis      | Methods | Functions     | 
+| -----------       |    -----------   |          ----------- | 
+| Exploratory data analysis    | PCA       |  pca() &lt;br&gt; plotIndiv()   | 
+| | | | 
+| Discriminant analysis   | sPLSDA        | splsda() &lt;br&gt; tune(), perf() &lt;br&gt; plotIndiv(), plotVar()      |
+| | | | 
+| Data integration analysis   | DIABLO        | block.splsda() &lt;br&gt; tune(), perf() &lt;br&gt; plotDiablo(), circosPlot()  |
+
+---
+
+# Exploratory data analysis using PCA
+
+
+```r
+J &lt;- length(breast.TCGA$data.train)-1
+pcs &lt;- lapply(breast.TCGA$data.train[1:J], pca)
+
+mapply(function(pca, dataset){
+  plotIndiv(pca, 
+            title=dataset, 
+            group=breast.TCGA$data.train$subtype, 
+            style="graphics",
+            legend=TRUE)
+}, pca=pcs, dataset=names(breast.TCGA$data.train)[1:J])
+```
+
+&lt;img src="slides_files/figure-html/unnamed-chunk-8-1.png" width="300px" /&gt;&lt;img src="slides_files/figure-html/unnamed-chunk-8-2.png" width="300px" /&gt;&lt;img src="slides_files/figure-html/unnamed-chunk-8-3.png" width="300px" /&gt;
+
+```
+##            mirna         mrna          protein      
+## df         data.frame,10 data.frame,10 data.frame,10
+## df.ellipse NULL          NULL          NULL         
+## graph      NULL          NULL          NULL
+```
+
+---
+
+# Discriminant analysis using sPLSDA
+
+- based on the eda it seems **mrna** is better at separating classes than **mirna**, lets test this.
+- this may or may not be true since we peeked at the data (need to test model with another dataset)
+
+.pull-left[
+- mrna
+
+
+```r
+mrna_model &lt;- splsda(X = breast.TCGA$data.train$mrna,
+                      Y = breast.TCGA$data.train$subtype,
+                      keepX = c(5, 5),
+                      ncomp = 2)
+mrna_perf &lt;- perf(mrna_model, validation = "Mfold", folds = 5, nrepeat = 5)
+mrna_perf$error.rate
+```
+
+```
+## $overall
+##         max.dist centroids.dist mahalanobis.dist
+## comp1 0.21733333          0.176            0.176
+## comp2 0.09733333          0.104            0.128
+## 
+## $BER
+##        max.dist centroids.dist mahalanobis.dist
+## comp1 0.3478519      0.1951111        0.1951111
+## comp2 0.1232593      0.1131852        0.1420741
+```
+]
+
+.pull-right[
+- mirna
+
+
+```r
+mirna_model &lt;- splsda(X = breast.TCGA$data.train$mirna,
+                      Y = breast.TCGA$data.train$subtype,
+                      keepX = c(5, 5),
+                      ncomp = 2)
+mirna_perf &lt;- perf(mirna_model, validation = "Mfold", folds = 5, nrepeat = 5)
+mirna_perf$error.rate
+```
+
+```
+## $overall
+##        max.dist centroids.dist mahalanobis.dist
+## comp1 0.2613333      0.3013333        0.3013333
+## comp2 0.2173333      0.2093333        0.2066667
+## 
+## $BER
+##        max.dist centroids.dist mahalanobis.dist
+## comp1 0.3884444      0.3265185        0.3265185
+## comp2 0.3002963      0.2343704        0.2367407
+```
+]
+
+---
+
+## Find optimal models
+
+.pull-left[
+
+- mrna
+
+
+```r
+tune_mrna = tune(method = "splsda", X = breast.TCGA$data.train$mrna, 
+                 Y=breast.TCGA$data.train$subtype, ncomp=3, nrepeat=5,
+                 test.keepX = c(5, 10, 15, 30, 100, 200), folds=5, dist="max.dist", 
+                 progressBar = FALSE)
+
+plot(tune_mrna)
+```
+
+&lt;img src="slides_files/figure-html/unnamed-chunk-11-1.png" width="300px" /&gt;
+]
+
+.pull-right[
+
+- mirna
+
+
+```r
+tune_mirna = tune(method = "splsda", X = breast.TCGA$data.train$mirna, 
+                 Y=breast.TCGA$data.train$subtype, ncomp=3, nrepeat=5,
+                 test.keepX = c(5, 10, 15, 30, 100, 200), folds=5, dist="max.dist", 
+                 progressBar = FALSE)
+
+plot(tune_mirna)
+```
+
+&lt;img src="slides_files/figure-html/unnamed-chunk-12-1.png" width="300px" /&gt;
+]
+
+---
+
+## Test sPLSDA models using data from other observations (patients)
+
+.pull-left[
+
+- mrna
+
+
+```r
+mrna_model &lt;- splsda(X = breast.TCGA$data.train$mrna,
+                      Y = breast.TCGA$data.train$subtype,
+                      keepX = rep(5, 3),
+                      ncomp = 3)
+mrna_pred &lt;- predict(mrna_model, newdata = breast.TCGA$data.test$mrna)
+
+plotIndiv(mrna_model, comp = 1:2, rep.space = "X-variate", style="graphics", ind.names=FALSE, ellipse = TRUE, cex=0, title=paste0("mrna, BER=", calc_err(mrna_pred, breast.TCGA$data.test$subtype)))
+points(mrna_pred$variates[, 1], mrna_pred$variates[, 2], pch = 19, cex = 1.2, col=mixOmics::color.mixo(as.numeric(breast.TCGA$data.test$subtype)))
+```
+
+&lt;img src="slides_files/figure-html/unnamed-chunk-13-1.png" width="250px" /&gt;
+]
+
+.pull-right[
+
+- mirna
+
+
+```r
+mirna_model &lt;- splsda(X = breast.TCGA$data.train$mirna,
+                      Y = breast.TCGA$data.train$subtype,
+                      keepX = rep(5, 3),
+                      ncomp = 3)
+mirna_pred &lt;- predict(mirna_model, newdata = breast.TCGA$data.test$mirna)
+
+plotIndiv(mirna_model, comp = 1:2, rep.space = "X-variate", style="graphics", ind.names=FALSE, ellipse = TRUE, cex=0, title=paste0("mIrna, BER=", calc_err(mirna_pred, breast.TCGA$data.test$subtype)))
+points(mirna_pred$variates[, 1], mirna_pred$variates[, 2], pch = 19, cex = 1.2, col=mixOmics::color.mixo(as.numeric(breast.TCGA$data.test$subtype)))
+```
+
+&lt;img src="slides_files/figure-html/unnamed-chunk-14-1.png" width="250px" /&gt;
+]
+
+---
+
+# Variables in mrna model
+
+.pull-left[
+
+
+```r
+rbind(selectVar(mrna_model, comp=1)$value,
+      selectVar(mrna_model, comp=2)$value,
+      selectVar(mrna_model, comp=3)$value)
+```
+
+```
+##            value.var
+## ZNF552   -0.75801237
+## KDM4B    -0.58296361
+## PREX1    -0.20979766
+## LRIG1    -0.17185790
+## CCNA2     0.10963799
+## CDK18     0.69045321
+## TP53INP2 -0.68042479
+## NDRG2     0.22678162
+## STAT5A    0.07254351
+## TRIM45    0.06003335
+## JAM3      0.72727214
+## E2F1     -0.53439117
+## FRMD6     0.33920140
+## ASF1B    -0.23142418
+## HTRA1     0.12994836
+```
+]
+
+.pull-right[
+
+```r
+cim(mrna_model, 
+    row.sideColors = mixOmics::color.mixo(as.numeric(breast.TCGA$data.train$subtype)))
+```
+
+&lt;img src="slides_files/figure-html/unnamed-chunk-16-1.png" width="400px" /&gt;
+]
+
+---
+
+## Data integration using DIABLO
+
+.pull-left[
+
+### Design matters!
+
+
+```r
+data = list(mrna = breast.TCGA$data.train$mrna, mirna = breast.TCGA$data.train$mirna,
+            protein = breast.TCGA$data.train$protein)
+# set up a full design where every block is connected
+# could also consider other weights, see our mixOmics manuscript
+design = matrix(1, ncol = length(data), nrow = length(data),
+                dimnames = list(names(data), names(data)))
+diag(design) =  0
+design
+```
+
+```
+##         mrna mirna protein
+## mrna       0     1       1
+## mirna      1     0       1
+## protein    1     1       0
+```
+]
+
+
+.pull-right[
+
+```r
+# set number of component per data set
+ncomp = 3
+test.keepX = list(mrna = c(10, 30), mirna = c(15, 25), protein = c(4, 8))
+
+## setup cluster - use SnowParam() on Widnows
+BPPARAM &lt;- BiocParallel::MulticoreParam(workers = parallel::detectCores()-1)
+tune &lt;- tune.block.splsda(
+    X = data,
+    Y = breast.TCGA$data.train$subtype,
+    ncomp = ncomp,
+    test.keepX = test.keepX,
+    design = design,
+    nrepeat = 2, 
+    BPPARAM = BPPARAM
+)
+```
+
+```
+## Design matrix has changed to include Y; each block will be
+##             linked to Y.
+```
+
+```
+## 
+## You have provided a sequence of keepX of length: 2 for block mrna and 2 for block mirna and 2 for block protein.
+## This results in 8 models being fitted for each component and each nrepeat, this may take some time to run, be patient!
+```
+
+]
+
+[Bioinformatics. 2019 Sep 1;35(17):3055-3062.](https://pubmed.ncbi.nlm.nih.gov/30657866/)
+
+
+---
+
+## Finding the optimal DIABLO model
+
+.pull-left[
+
+```r
+plot(tune)
+```
+
+&lt;img src="slides_files/figure-html/unnamed-chunk-19-1.png" width="400px" /&gt;
+
+]
+
+.pull-right[
+
+```r
+tune$choice.keepX
+```
+
+```
+## $mrna
+## [1] 30 30 30
+## 
+## $mirna
+## [1] 15 25 15
+## 
+## $protein
+## [1] 4 4 8
+```
+
+]
+
+---
+
+## DIABLO model
+
+.pull-left[
+
+```r
+ncomp = length(tune$choice.keepX$mrna)
+
+diablo &lt;- block.splsda(X = breast.TCGA$data.train[1:3], 
+                       Y = breast.TCGA$data.train$subtype, 
+                       keepX=tune$choice.keepX,
+                       ncomp = ncomp)
+```
+]
+
+.pull-right[
+![](slides_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
+]
+
+---
+
+## DIABLO: Sample and variable plots
+
+.pull-left[
+
+```r
+plotIndiv(diablo) 
+```
+
+&lt;img src="slides_files/figure-html/unnamed-chunk-23-1.png" width="80%" /&gt;
+]
+
+.pull-right[
+
+```r
+plotVar(diablo, var.names = c(TRUE, TRUE, TRUE),
+        legend=TRUE, pch=c(16,16,1))
+```
+
+&lt;img src="slides_files/figure-html/unnamed-chunk-24-1.png" width="80%" /&gt;
+]
+
+---
+
+## DIABLO
+
+.pull-left[
+
+```r
+cimDiablo(diablo, color.blocks = c('darkorchid', 'brown1', 'lightgreen'), 
+          comp = 1, margin=c(8,20), legend.position = "right")
+```
+
+```
+## 
+## trimming values to [-3, 3] range for cim visualisation. See 'trim' arg in ?cimDiablo
+```
+
+&lt;img src="slides_files/figure-html/unnamed-chunk-25-1.png" width="80%" /&gt;
+]
+
+.pull-right[
+
+```r
+network(diablo, blocks = c(1,2,3),
+        color.node = c('darkorchid', 'brown1', 'lightgreen'), 
+        cutoff = 0.75)
+```
+
+&lt;img src="slides_files/figure-html/unnamed-chunk-26-1.png" width="80%" /&gt;
+
+]
+
+---
+
+.center[&lt;img src ="img/book_chapter.png" alt="Book chapter", width="100%"/&gt;]
+[Singh A et al., Handbook of Biomarkers and Precision Medicine CRC Press 2019:596](https://www.taylorfrancis.com/books/edit/10.1201/9780429202872/handbook-biomarkers-precision-medicine-claudio-carini-mark-fidock-alain-van-gool)
+
+---
+
+class: middle, center
+background-image: url(img/website_bkg.png)
+background-size: cover
+
+# THANK YOU!
+
+April 13th, 2023 | 11:45-12:35 EST&lt;br&gt;&lt;br&gt;<svg aria-hidden="true" role="img" viewBox="0 0 640 512" style="height:1em;width:1.25em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M579.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L422.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C206.5 251.2 213 330 263 380c56.5 56.5 148 56.5 204.5 0L579.8 267.7zM60.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C74 372 74 321 105.5 289.5L217.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C433.5 260.8 427 182 377 132c-56.5-56.5-148-56.5-204.5 0L60.2 244.3z"/></svg> [Comp Bio lab](https://cbl-hli.med.ubc.ca/)&lt;br&gt;<svg aria-hidden="true" role="img" viewBox="0 0 496 512" style="height:1em;width:0.97em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg> [code](https://github.com/singha53/UF_course_lecture)&lt;br&gt;<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm64 192c17.7 0 32 14.3 32 32v96c0 17.7-14.3 32-32 32s-32-14.3-32-32V256c0-17.7 14.3-32 32-32zm64-64c0-17.7 14.3-32 32-32s32 14.3 32 32V352c0 17.7-14.3 32-32 32s-32-14.3-32-32V160zM320 288c17.7 0 32 14.3 32 32v32c0 17.7-14.3 32-32 32s-32-14.3-32-32V320c0-17.7 14.3-32 32-32z"/></svg>
+[Survey](https://ubc.ca1.qualtrics.com/jfe/form/SV_5bhbXGfN4R58nky)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
