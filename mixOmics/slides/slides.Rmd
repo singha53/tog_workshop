@@ -200,15 +200,15 @@ addmargins(table(breast.TCGA$data.train$subtype))
 ---
 
 
-# Analysis plan
+# Types of analyses covered:
 
-| Analysis      | Methods | Functions     | 
-| -----------       |    -----------   |          ----------- | 
-| Exploratory data analysis    | PCA       |  pca() <br> plotIndiv()   | 
-| | | | 
-| Discriminant analysis   | sPLSDA        | splsda() <br> tune(), perf() <br> plotIndiv(), plotVar()      |
-| | | | 
-| Data integration analysis   | DIABLO        | block.splsda() <br> tune(), perf() <br> plotDiablo(), circosPlot()  |
+| Analysis      | Methods | Functions     | Input | Output |
+| -----------       |    -----------   |          ----------- | :-----------: | :-----------: | 
+| Exploratory data analysis    | PCA       |  pca() <br> plotIndiv()   | *X* |  |
+| | | | | |
+| Discriminant analysis   | sPLSDA        | splsda() <br> tune(), perf() <br> plotIndiv(), plotVar()      | *X* | *Y* |
+| | | | | |
+| Data integration analysis   | DIABLO        | block.splsda() <br> tune(), perf() <br> plotDiablo(), circosPlot()  | *X<sub>1</sub>, ..., X<sub>J</sub>* | *Y*
 
 ---
 
@@ -223,10 +223,18 @@ mapply(function(pca, dataset){
             title=dataset, 
             group=breast.TCGA$data.train$subtype, 
             style="graphics",
-            legend=TRUE)
+            legend=TRUE,
+            ellipse = TRUE,
+            ellipse.level = 0.90)
 }, pca=pcs, dataset=names(breast.TCGA$data.train)[1:J])
 
 ```
+
+???
+PCA notes: 
+- visualize the global structure of a p-dimensional data matrix
+- variation explained refers to how well the PCs captures (summarizes) the variability (information) in the data
+- 
 
 ---
 
@@ -261,9 +269,18 @@ mirna_perf$error.rate
 ```
 ]
 
+???
+sPLSDA notes:
+- PLSDA: used to predict a single outcome variables *Y* from a *nxp* data matrix *X*
+- sPLSDA: selects top *k* variables from *X*: (keepX=k)
+- similar to PCA, you specify the number of components to retain in the model (ncomp)
+
+test error:
+- apply M-fold cross validation repeated *nrepeat* times; (folds=M)
+
 ---
 
-## Find optimal models
+## How to select *ncomp* and *keepX*? use a grid of values
 
 .pull-left[
 
@@ -274,7 +291,6 @@ tune_mrna = tune(method = "splsda", X = breast.TCGA$data.train$mrna,
                  Y=breast.TCGA$data.train$subtype, ncomp=3, nrepeat=5,
                  test.keepX = c(5, 10, 15, 30, 100, 200), folds=5, dist="max.dist", 
                  progressBar = FALSE)
-
 plot(tune_mrna)
 ```
 ]
@@ -288,7 +304,6 @@ tune_mirna = tune(method = "splsda", X = breast.TCGA$data.train$mirna,
                  Y=breast.TCGA$data.train$subtype, ncomp=3, nrepeat=5,
                  test.keepX = c(5, 10, 15, 30, 100, 200), folds=5, dist="max.dist", 
                  progressBar = FALSE)
-
 plot(tune_mirna)
 ```
 ]
@@ -331,7 +346,9 @@ points(mirna_pred$variates[, 1], mirna_pred$variates[, 2], pch = 19, cex = 1.2, 
 
 ---
 
-# Variables in mrna model
+# Model interpretation
+
+- determine variables with most importance in mrna model
 
 .pull-left[
 
@@ -351,7 +368,7 @@ cim(mrna_model,
 
 ---
 
-## Data integration using DIABLO
+## DIABLO: an integrative classification method for multi-omics data
 
 .pull-left[
 
@@ -483,5 +500,4 @@ background-size: cover
 
 # THANK YOU!
 
-April 13th, 2023 | 11:45-12:35 EST<br><br>`r fontawesome::fa("link")` [Comp Bio lab](https://cbl-hli.med.ubc.ca/)<br>`r fontawesome::fa("github")` [code](https://github.com/singha53/UF_course_lecture)<br>`r fontawesome::fa("poll")`
-[Survey](https://ubc.ca1.qualtrics.com/jfe/form/SV_5bhbXGfN4R58nky)
+June 7th, 2023 | 13:00-15:00 PST<br><br>TOG Intermediate Workshop <br> BCCHR Trainee Omics Group (TOG) <br> <br>`r fontawesome::fa("link")` [Comp Bio lab](https://cbl-hli.med.ubc.ca/)<br>`r fontawesome::fa("github")` [code](https://github.com/singha53/tog_workshop)

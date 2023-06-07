@@ -75,17 +75,17 @@ By the end of this lecture you will be able to:
 ## univariate
 
 ```
-##         p_1
-## 1  -1.41000
-## 2  -0.71300
-## 3  -0.05170
-## 4  -0.00142
-## 5  -0.12000
-## 6  -0.08740
-## 7  -0.14600
-## 8   0.32400
-## 9   0.27100
-## 10 -2.15000
+##        p_1
+## 1  -0.6700
+## 2  -0.0904
+## 3   0.0200
+## 4  -1.2000
+## 5  -0.8140
+## 6   0.8980
+## 7  -0.1430
+## 8   0.6100
+## 9   1.2500
+## 10  0.6200
 ```
 ]
 
@@ -93,17 +93,17 @@ By the end of this lecture you will be able to:
 ## multivariate
 
 ```
-##        p_1     p_2     p_3    p_4     p_5     p_6    p_7    p_8     p_9   p_10
-## 1   0.8300 -0.9530  0.9350 -0.577  0.7070 -1.2200 -0.200 -0.617  1.1700  0.424
-## 2   0.0708 -1.4900  0.0917  2.130  0.9900  1.6300 -0.685  0.723 -0.9530  1.190
-## 3   0.6240  0.7900  0.6130 -0.215 -1.7800 -1.6900  1.940  0.399  0.0681  0.192
-## 4   0.3150  1.9700  0.2270  0.246  1.2300  0.0596 -0.282  0.325  0.4230 -1.920
-## 5  -1.0400  0.8720  0.5050 -0.349 -0.1200  0.6060 -1.730  0.501  1.3900 -0.567
-## 6  -0.2910 -0.0866  0.4520  0.340  0.8180 -0.6720  1.620  1.650 -0.8950 -0.301
-## 7   0.4640  0.8240  2.2200  0.491 -0.0625  0.6380 -1.450 -0.188 -0.2800  0.486
-## 8   0.4390 -0.2400  0.8200  1.500 -1.2100 -0.4600  0.839  0.369 -0.9620 -0.354
-## 9  -0.1730  1.1400 -0.4930 -1.270 -0.3810  0.0364  1.290  0.468  0.2580  0.807
-## 10 -1.3300 -0.1410  1.5900  1.740 -1.4000  0.4770  0.357  0.107  0.4370  0.486
+##        p_1     p_2    p_3     p_4    p_5     p_6     p_7     p_8     p_9    p_10
+## 1  -0.4990  1.6300  0.349 -0.8150 -1.090 -0.6810 -0.1820  0.6920  0.6080 -0.8450
+## 2   0.9220  1.2200  1.140  0.0129 -0.568 -0.5780 -1.9100 -1.1700  0.4540 -2.2800
+## 3   1.7100 -0.8570  0.662 -1.0500  0.819  2.4400  1.1600 -0.7990  0.8140 -1.3400
+## 4  -1.4800 -1.5900  2.130 -0.1650  0.741  1.3800 -0.0738  0.1710 -0.2340  1.6800
+## 5  -0.4970 -1.5300  0.939  0.0839 -0.238 -0.5450 -0.2970 -0.0242  0.0341 -0.3420
+## 6   0.5310  0.0468  0.928 -0.0389 -0.913  0.0657  1.3000  0.0334  0.7830 -0.4860
+## 7   1.1000  0.5110 -0.159  0.9280 -0.477 -2.8200 -1.5800 -0.0524  0.5650 -0.3160
+## 8  -1.1000  0.4540  0.634 -0.6610  0.226  0.2930  1.2500 -1.5000 -0.0443  1.6000
+## 9  -0.3690  2.3500 -1.740  0.0212  1.670 -0.3250 -0.7870  1.7900  0.5470  0.0477
+## 10  0.0412 -1.7100  1.350  1.7700 -1.630  0.9670  0.0655 -1.1500  0.0854 -0.0550
 ```
 
 .center[&lt;img src ="img/matrix.png" alt="matrix", width="40%"/&gt;]
@@ -234,15 +234,15 @@ addmargins(table(breast.TCGA$data.train$subtype))
 ---
 
 
-# Analysis plan
+# Types of analyses covered:
 
-| Analysis      | Methods | Functions     | 
-| -----------       |    -----------   |          ----------- | 
-| Exploratory data analysis    | PCA       |  pca() &lt;br&gt; plotIndiv()   | 
-| | | | 
-| Discriminant analysis   | sPLSDA        | splsda() &lt;br&gt; tune(), perf() &lt;br&gt; plotIndiv(), plotVar()      |
-| | | | 
-| Data integration analysis   | DIABLO        | block.splsda() &lt;br&gt; tune(), perf() &lt;br&gt; plotDiablo(), circosPlot()  |
+| Analysis      | Methods | Functions     | Input | Output |
+| -----------       |    -----------   |          ----------- | :-----------: | :-----------: | 
+| Exploratory data analysis    | PCA       |  pca() &lt;br&gt; plotIndiv()   | *X* |  |
+| | | | | |
+| Discriminant analysis   | sPLSDA        | splsda() &lt;br&gt; tune(), perf() &lt;br&gt; plotIndiv(), plotVar()      | *X* | *Y* |
+| | | | | |
+| Data integration analysis   | DIABLO        | block.splsda() &lt;br&gt; tune(), perf() &lt;br&gt; plotDiablo(), circosPlot()  | *X&lt;sub&gt;1&lt;/sub&gt;, ..., X&lt;sub&gt;J&lt;/sub&gt;* | *Y*
 
 ---
 
@@ -258,7 +258,9 @@ mapply(function(pca, dataset){
             title=dataset, 
             group=breast.TCGA$data.train$subtype, 
             style="graphics",
-            legend=TRUE)
+            legend=TRUE,
+            ellipse = TRUE,
+            ellipse.level = 0.90)
 }, pca=pcs, dataset=names(breast.TCGA$data.train)[1:J])
 ```
 
@@ -267,9 +269,15 @@ mapply(function(pca, dataset){
 ```
 ##            mirna         mrna          protein      
 ## df         data.frame,10 data.frame,10 data.frame,10
-## df.ellipse NULL          NULL          NULL         
+## df.ellipse data.frame,8  data.frame,8  data.frame,8 
 ## graph      NULL          NULL          NULL
 ```
+
+???
+PCA notes: 
+- visualize the global structure of a p-dimensional data matrix
+- variation explained refers to how well the PCs captures (summarizes) the variability (information) in the data
+- 
 
 ---
 
@@ -293,14 +301,14 @@ mrna_perf$error.rate
 
 ```
 ## $overall
-##        max.dist centroids.dist mahalanobis.dist
-## comp1 0.2186667          0.184        0.1840000
-## comp2 0.0960000          0.104        0.1346667
+##         max.dist centroids.dist mahalanobis.dist
+## comp1 0.22000000      0.1840000        0.1840000
+## comp2 0.09733333      0.1026667        0.1413333
 ## 
 ## $BER
 ##        max.dist centroids.dist mahalanobis.dist
-## comp1 0.3481481      0.2047407        0.2047407
-## comp2 0.1234074      0.1183704        0.1503704
+## comp1 0.3496296      0.2035556        0.2035556
+## comp2 0.1250370      0.1151111        0.1536296
 ```
 ]
 
@@ -320,19 +328,28 @@ mirna_perf$error.rate
 ```
 ## $overall
 ##        max.dist centroids.dist mahalanobis.dist
-## comp1 0.2573333      0.2946667        0.2946667
-## comp2 0.2186667      0.2466667        0.2280000
+## comp1 0.2560000      0.3106667        0.3106667
+## comp2 0.2133333      0.2266667        0.2120000
 ## 
 ## $BER
 ##        max.dist centroids.dist mahalanobis.dist
-## comp1 0.3840000      0.3160000         0.316000
-## comp2 0.2980741      0.2705185         0.262963
+## comp1 0.3819259      0.3400000         0.340000
+## comp2 0.2930370      0.2451852         0.249037
 ```
 ]
 
+???
+sPLSDA notes:
+- PLSDA: used to predict a single outcome variables *Y* from a *nxp* data matrix *X*
+- sPLSDA: selects top *k* variables from *X*: (keepX=k)
+- similar to PCA, you specify the number of components to retain in the model (ncomp)
+
+test error:
+- apply M-fold cross validation repeated *nrepeat* times; (folds=M)
+
 ---
 
-## Find optimal models
+## How to select *ncomp* and *keepX*? use a grid of values
 
 .pull-left[
 
@@ -344,7 +361,6 @@ tune_mrna = tune(method = "splsda", X = breast.TCGA$data.train$mrna,
                  Y=breast.TCGA$data.train$subtype, ncomp=3, nrepeat=5,
                  test.keepX = c(5, 10, 15, 30, 100, 200), folds=5, dist="max.dist", 
                  progressBar = FALSE)
-
 plot(tune_mrna)
 ```
 
@@ -361,7 +377,6 @@ tune_mirna = tune(method = "splsda", X = breast.TCGA$data.train$mirna,
                  Y=breast.TCGA$data.train$subtype, ncomp=3, nrepeat=5,
                  test.keepX = c(5, 10, 15, 30, 100, 200), folds=5, dist="max.dist", 
                  progressBar = FALSE)
-
 plot(tune_mirna)
 ```
 
@@ -412,7 +427,9 @@ points(mirna_pred$variates[, 1], mirna_pred$variates[, 2], pch = 19, cex = 1.2, 
 
 ---
 
-# Variables in mrna model
+# Model interpretation
+
+- determine variables with most importance in mrna model
 
 .pull-left[
 
@@ -455,7 +472,7 @@ cim(mrna_model,
 
 ---
 
-## Data integration using DIABLO
+## DIABLO: an integrative classification method for multi-omics data
 
 .pull-left[
 
@@ -540,13 +557,13 @@ tune$choice.keepX
 
 ```
 ## $mrna
-## [1] 30 30 10
+## [1] 10 30 10
 ## 
 ## $mirna
-## [1] 15 25 15
+## [1] 15 25 25
 ## 
 ## $protein
-## [1] 4 4 4
+## [1] 4 8 4
 ```
 
 ]
@@ -636,8 +653,7 @@ background-size: cover
 
 # THANK YOU!
 
-April 13th, 2023 | 11:45-12:35 EST&lt;br&gt;&lt;br&gt;<svg aria-hidden="true" role="img" viewBox="0 0 640 512" style="height:1em;width:1.25em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M579.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L422.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C206.5 251.2 213 330 263 380c56.5 56.5 148 56.5 204.5 0L579.8 267.7zM60.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C74 372 74 321 105.5 289.5L217.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C433.5 260.8 427 182 377 132c-56.5-56.5-148-56.5-204.5 0L60.2 244.3z"/></svg> [Comp Bio lab](https://cbl-hli.med.ubc.ca/)&lt;br&gt;<svg aria-hidden="true" role="img" viewBox="0 0 496 512" style="height:1em;width:0.97em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg> [code](https://github.com/singha53/UF_course_lecture)&lt;br&gt;<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm64 192c17.7 0 32 14.3 32 32v96c0 17.7-14.3 32-32 32s-32-14.3-32-32V256c0-17.7 14.3-32 32-32zm64-64c0-17.7 14.3-32 32-32s32 14.3 32 32V352c0 17.7-14.3 32-32 32s-32-14.3-32-32V160zM320 288c17.7 0 32 14.3 32 32v32c0 17.7-14.3 32-32 32s-32-14.3-32-32V320c0-17.7 14.3-32 32-32z"/></svg>
-[Survey](https://ubc.ca1.qualtrics.com/jfe/form/SV_5bhbXGfN4R58nky)
+June 7th, 2023 | 13:00-15:00 PST&lt;br&gt;&lt;br&gt;TOG Intermediate Workshop &lt;br&gt; BCCHR Trainee Omics Group (TOG) &lt;br&gt; &lt;br&gt;<svg aria-hidden="true" role="img" viewBox="0 0 640 512" style="height:1em;width:1.25em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M579.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L422.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C206.5 251.2 213 330 263 380c56.5 56.5 148 56.5 204.5 0L579.8 267.7zM60.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C74 372 74 321 105.5 289.5L217.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C433.5 260.8 427 182 377 132c-56.5-56.5-148-56.5-204.5 0L60.2 244.3z"/></svg> [Comp Bio lab](https://cbl-hli.med.ubc.ca/)&lt;br&gt;<svg aria-hidden="true" role="img" viewBox="0 0 496 512" style="height:1em;width:0.97em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg> [code](https://github.com/singha53/tog_workshop)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
