@@ -65,6 +65,10 @@ calc_err = function(pred, truth, dist="max.dist"){
 
 ---
 
+.center[<img src ="img/expectations.png" width="80%"/>]
+
+---
+
 class: middle
 
 # Learning outcomes
@@ -119,7 +123,7 @@ make_matrix(10)
 
 ---
 
-# mixOmics
+# mixOmics.org
 
 - initiative started and maintained by Prof Kim-Anh Lê Cao
 - R-library with 19 methods for high-dimensional data (exploratory analyses, classification, regression, data integration, meta-analysis)
@@ -170,7 +174,7 @@ BiocManager::install("mixOmics")
 ## load vignette
 
 ```{r, eval=FALSE}
-openVignette("mixOmics")
+browseVignettes("mixOmics")
 ```
 
 ---
@@ -216,10 +220,10 @@ addmargins(table(breast.TCGA$data.train$subtype))
 
 ```{r, message=FALSE, out.width = '300px'}
 J <- length(breast.TCGA$data.train)-1
-pcs <- lapply(breast.TCGA$data.train[1:J], pca)
+pcs <- lapply(breast.TCGA$data.train[1:J], mixOmics::pca)
 
 mapply(function(pca, dataset){
-  plotIndiv(pca, 
+  mixOmics::plotIndiv(pca, 
             title=dataset, 
             group=breast.TCGA$data.train$subtype, 
             style="graphics",
@@ -247,11 +251,11 @@ PCA notes:
 - mrna
 
 ```{r}
-mrna_model <- splsda(X = breast.TCGA$data.train$mrna,
+mrna_model <- mixOmics::splsda(X = breast.TCGA$data.train$mrna,
                       Y = breast.TCGA$data.train$subtype,
                       keepX = c(5, 5),
                       ncomp = 2)
-mrna_perf <- perf(mrna_model, validation = "Mfold", folds = 5, nrepeat = 5)
+mrna_perf <- mixOmics::perf(mrna_model, validation = "Mfold", folds = 5, nrepeat = 5)
 mrna_perf$error.rate
 ```
 ]
@@ -260,11 +264,11 @@ mrna_perf$error.rate
 - mirna
 
 ```{r}
-mirna_model <- splsda(X = breast.TCGA$data.train$mirna,
+mirna_model <- mixOmics::splsda(X = breast.TCGA$data.train$mirna,
                       Y = breast.TCGA$data.train$subtype,
                       keepX = c(5, 5),
                       ncomp = 2)
-mirna_perf <- perf(mirna_model, validation = "Mfold", folds = 5, nrepeat = 5)
+mirna_perf <- mixOmics::perf(mirna_model, validation = "Mfold", folds = 5, nrepeat = 5)
 mirna_perf$error.rate
 ```
 ]
@@ -280,6 +284,10 @@ test error:
 
 ---
 
+.center[<img src ="img/poll.png" width="80%"/>]
+
+---
+
 ## How to select *ncomp* and *keepX*? use a grid of values
 
 .pull-left[
@@ -287,7 +295,7 @@ test error:
 - mrna
 
 ```{r, message=FALSE, out.width = '300px'}
-tune_mrna = tune(method = "splsda", X = breast.TCGA$data.train$mrna, 
+tune_mrna = mixOmics::tune(method = "splsda", X = breast.TCGA$data.train$mrna, 
                  Y=breast.TCGA$data.train$subtype, ncomp=3, nrepeat=5,
                  test.keepX = c(5, 10, 15, 30, 100, 200), folds=5, dist="max.dist", 
                  progressBar = FALSE)
@@ -300,7 +308,7 @@ plot(tune_mrna)
 - mirna
 
 ```{r, message=FALSE, out.width = '300px'}
-tune_mirna = tune(method = "splsda", X = breast.TCGA$data.train$mirna, 
+tune_mirna = mixOmics::tune(method = "splsda", X = breast.TCGA$data.train$mirna, 
                  Y=breast.TCGA$data.train$subtype, ncomp=3, nrepeat=5,
                  test.keepX = c(5, 10, 15, 30, 100, 200), folds=5, dist="max.dist", 
                  progressBar = FALSE)
@@ -339,7 +347,7 @@ mirna_model <- splsda(X = breast.TCGA$data.train$mirna,
                       ncomp = 3)
 mirna_pred <- predict(mirna_model, newdata = breast.TCGA$data.test$mirna)
 
-plotIndiv(mirna_model, comp = 1:2, rep.space = "X-variate", style="graphics", ind.names=FALSE, ellipse = TRUE, cex=0, title=paste0("mIrna, BER=", calc_err(mirna_pred, breast.TCGA$data.test$subtype)))
+plotIndiv(mirna_model, comp = 1:2, rep.space = "X-variate", style="graphics", ind.names=FALSE, ellipse = TRUE, cex=0, title=paste0("mirna, BER=", calc_err(mirna_pred, breast.TCGA$data.test$subtype)))
 points(mirna_pred$variates[, 1], mirna_pred$variates[, 2], pch = 19, cex = 1.2, col=mixOmics::color.mixo(as.numeric(breast.TCGA$data.test$subtype)))
 ```
 ]
@@ -456,7 +464,7 @@ plotDiablo(diablo, ncomp = 1)
 
 .pull-left[
 ```{r, out.width="80%"}
-plotIndiv(diablo) 
+plotIndiv(diablo, ellipse = TRUE) 
 ```
 ]
 
