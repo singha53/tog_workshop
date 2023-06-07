@@ -1,2 +1,1 @@
-# UF_course_lecture
-course slides for University of Florida Chemometrics course
+<img src ="mixOmics/slides/img/tog.png" width="80%"/>
